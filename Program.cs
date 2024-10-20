@@ -8,7 +8,7 @@ public class Entry
         string outputFilePath = args[2];
         if(Exists(inputFilePath) && inputFilePath.EndsWith(".sun")) {
             string content = ReadAllText(inputFilePath);
-            string[] tokens = content.Split(' ');
+            string[] tokens = Lexer.Tokenize(content); // create Lexer class
             string[] parsedCode = Parser.Parse(tokens);
             string output = Transpiler.Transpile(parsedCode);
             WriteAllText(outputFilePath, output);
