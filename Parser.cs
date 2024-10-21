@@ -19,27 +19,38 @@ public class Parser
     {
         List<string> parsedTokens = new List<string>();
 
-        for(tokenIndex = 0; tokenIndex < tokens.Length; tokenIndex++) {
-            switch (tokens[tokenIndex]) {
+        for (tokenIndex = 0; tokenIndex < tokens.Length; tokenIndex++)
+        {
+            switch (tokens[tokenIndex])
+            {
                 case "new":
                     int tokenJump = 0;
                     string IRToken = "<new>";
-                    if (Expect(tokens[tokenIndex + 1], Expectations.TYPE_DECLARATION)) {
+                    if (Expect(tokens[tokenIndex + 1], Expectations.TYPE_DECLARATION))
+                    {
                         IRToken += "<" + tokens[tokenIndex + 1] + ">";
-                        if (Expect(tokens[tokenIndex + 2], Expectations.VARIABLE_NAME)) {
+                        if (Expect(tokens[tokenIndex + 2], Expectations.VARIABLE_NAME))
+                        {
                             IRToken += "<" + tokens[tokenIndex + 2] + ">";
-                        } else if (Expect(tokens[tokenIndex + 2], Expectations.TYPE_ARRAY)) {
+                        }
+                        else if (Expect(tokens[tokenIndex + 2], Expectations.TYPE_ARRAY))
+                        {
                             int i = 3;
                             IRToken += "<[]>";
-                            while (Expect(tokens[tokenIndex + i], Expectations.TYPE_ARRAY)) {
+                            while (Expect(tokens[tokenIndex + i], Expectations.TYPE_ARRAY))
+                            {
                                 IRToken += "<" + tokens[tokenIndex + i] + ">";
                                 i++;
                             }
                             tokenJump += i;
-                        } else {
+                        }
+                        else
+                        {
                             throw new Exception("Expected variable name or array declaration @ " + tokenIndex + ". Received: " + tokens[tokenIndex + 2]);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         throw new Exception("Expected type declaration @ " + tokenIndex + ". Received: " + tokens[tokenIndex + 1]);
                     }
                     break;
@@ -57,13 +68,18 @@ public class Parser
                 if (token != "int" && token != "string" && token != "bool" && token != "char" && token != "any")
                 {
                     throw new Exception("Invalid type declaration @" + tokenIndex + " : " + token + ".");
-                } else {
+                }
+                else
+                {
                     return true;
                 }
             case Expectations.TYPE_ARRAY:
-                if (token != "[]") {
+                if (token != "[]")
+                {
                     throw new Exception("Expected array declaration @" + tokenIndex + ". Recieved: " + token + ".");
-                } else {
+                }
+                else
+                {
                     return true;
                 }
             default:
