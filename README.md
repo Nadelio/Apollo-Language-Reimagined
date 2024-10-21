@@ -6,6 +6,6 @@ Apollo is transpiled into a C# file that can then compiled to a C# executable fi
 
 
 ### Contributors
-- nadelio (Creator)
-- cold.turquoise.moon
+- @nadelio (Creator)
+- @vmaskmovps (Lexer and ANTLR Grammar designer)
 - pyrotek45
