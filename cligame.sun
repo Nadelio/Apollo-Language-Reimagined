@@ -25,16 +25,16 @@ new function<void> update(){
 };
 
 new function<void> main(string[] args){
-	print <- {"Welcome to the game!"};
-	print <- {"You have ", health, " health and ", energy, " energy."};
-	print <- {"You can increase your energy by typing 's'"};
-	print <- {"Your health will decrease if your energy reaches 0."};
-	print <- {"You can increase your health by reaching 100 energy"};
+	print <- {"Welcome to the game!\n"};
+	print <- {"You have " health " health and " energy " energy.\n"};
+	print <- {"You can increase your energy by typing 's'\n"};
+	print <- {"Your health will decrease if your energy reaches 0.\n"};
+	print <- {"You can increase your health by reaching 100 energy.\n"};
 	loop while(true){
 	    new string input {in <- {}};
 		new char[] inputs {toCharArray <- {input}};
 		if(inputs[0] == 's'){ addEnergy <- {}; }
-		print <- {"You have " health " health and " energy " energy."};
+		print <- {"You have " health " health and " energy " energy.\n"};
 		update <- {};
 	}
 };
