@@ -1,0 +1,8 @@
+
+new function<int> add(int a, int b){
+	return { a + b };
+}
+
+main(string[] args){
+	print << {add << { 10 20 }};
+}
