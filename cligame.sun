@@ -34,7 +34,7 @@ new function<void> main(string[] args){
 	print <- {"Your health will decrease if your energy reaches 0.\n"};
 	print <- {"You can increase your health by reaching 100 energy.\n"};
 	loop while(true){
-	    new string input {inWithTimeout <- {1.5}};
+	    new string input {inWithTimeout <- {0.5}};
 		new char[] inputs {toCharArray <- {input}};
 		if(inputs[0] == 's'){ addEnergy <- {}; }
 		print <- {"You have " health " health and " energy " energy.\n"};
