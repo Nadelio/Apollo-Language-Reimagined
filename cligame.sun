@@ -7,6 +7,9 @@ new function<void> wait(int sec){};
 @bind { Apollo.random(int min, int max)}
 new function<int> random(int min, int max){};
 
+@bind { Apollo.waitForInput(int timeout)}
+new string inWithTimeout(int timeout){};
+
 new int energy {100};
 new int health {100};
 
@@ -31,7 +34,7 @@ new function<void> main(string[] args){
 	print <- {"Your health will decrease if your energy reaches 0.\n"};
 	print <- {"You can increase your health by reaching 100 energy.\n"};
 	loop while(true){
-	    new string input {in <- {}};
+	    new string input {inWithTimeout <- {1.5}};
 		new char[] inputs {toCharArray <- {input}};
 		if(inputs[0] == 's'){ addEnergy <- {}; }
 		print <- {"You have " health " health and " energy " energy.\n"};
