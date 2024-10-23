@@ -1,12 +1,6 @@
 @bind { Apollo.readInChar() }
 new function<char> readInChar(){};
 
-@bind { Apollo.castToChar(int n) }
-new function<char> asChar(int n){};
-
-@bind { Apollo.castToInt(char c) }
-new function<int> asInt(char c){};
-
 new function<void> interpret(string code){
 	new char[] tokens {toCharArray <- {code}};
 	new int[256] memory {};
@@ -20,8 +14,8 @@ new function<void> interpret(string code){
 			`<` { dec pointer; }
 			`+` { inc memory[pointer]; }
 			`-` { dec memory[pointer]; }
-			`.` { print <- {asChar <- {memory[pointer]}}; }
-			`,` { set memory[pointer] {asInt <- {readInChar <- {}}}; }
+			`.` { print <- {(char)memory[pointer]}; } /* char and int cast syntax up for debate */
+			`,` { set memory[pointer] {(int) readInChar <- {}}; }
 			`[` {
 				if(memory[pointer] == 0){
 					inc index;
@@ -43,9 +37,9 @@ new function<void> interpret(string code){
 				}
 			}
 		}
-	}
+	};
 
 	new function<void> main(string[] args){
 		interpret <- {in <- {}};
-	}
+	};
 }
