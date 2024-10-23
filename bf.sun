@@ -14,8 +14,8 @@ new function<void> interpret(string code){
 			`<` { dec pointer; }
 			`+` { inc memory[pointer]; }
 			`-` { dec memory[pointer]; }
-			`.` { print <- {(char)memory[pointer]}; } /* char and int cast syntax up for debate */
-			`,` { set memory[pointer] {(int) readInChar <- {}}; }
+			`.` { print <- {cast memory[pointer] char}; } /* char and int cast syntax up for debate */
+			`,` { set memory[pointer] {cast readInChar <- {} int}; }
 			`[` {
 				if(memory[pointer] == 0){
 					inc index;
