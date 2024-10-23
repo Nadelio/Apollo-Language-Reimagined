@@ -4,5 +4,5 @@ new function<int> add(int a, int b){
 }
 
 main(string[] args){
-	print << {add << { 10 20 }};
+	print <- {add <- { 10 20 }};
 }
