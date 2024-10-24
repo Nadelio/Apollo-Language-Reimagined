@@ -1,45 +1,53 @@
-@bind { Apollo.readInChar() }
-new function<char> readInChar(){};
+@bind { Apollo.toCharArray(string s) }
+new function<char[]> toCharArray(string s);
+/* no need to have the {} since @bind will automatically fill in the function body */
 
-new function<void> interpret(string code){
-	new char[] tokens {toCharArray <- {code}};
-	new int[256] memory {};
-	new int pointer {0};
-	new int c {0};
-	new int index {0};
-	
-	loop while(index < len <- {tokens}){
-		match{tokens[index]}{
-			`>` { inc pointer; }
-			`<` { dec pointer; }
-			`+` { inc memory[pointer]; }
-			`-` { dec memory[pointer]; }
-			`.` { print <- {cast memory[pointer] char}; } /* char and int cast syntax up for debate */
-			`,` { set memory[pointer] {cast readInChar <- {} int}; }
-			`[` {
-				if(memory[pointer] == 0){
-					inc index;
-					loop while(c > 0 || tokens[index] != ']'){
-						if(tokens[index] == `[`){ inc c; }
-						else if(tokens[index] == `]`){ dec c; }
-						inc index;
-					}
-				}
-			}
-			`]` {
-				if(memory[pointer] != 0){
-					dec index;
-					loop while(c > 0 || tokens[index] != `[`){
-						if(tokens[index] == `]`){ inc c; }
-						else if(tokens[index] == `[`){ dec c; }
-						dec index;
-					}
-				}
-			}
-		}
-	};
+new function<void> interpret{string code}{
+  new char[] tokens {toCharArray{code}};
+  new int[256] memory {};
+  new int pointer;
+  new int c;
+  new int index;
+  
+  loop while index < len{tokens} do
+    match tokens[index] with
+    `>` { inc pointer; }
+    `<` { dec pointer; }
+    `+` { inc memory[pointer]; }
+    `-` { dec memory[pointer]; }
+    `.` { print char {memory[pointer]}; } /* implictly converts memory[pointer] to a char since it is an int */
+    `,` { read char {memory[pointer]}; } /* implictly converts the char to an int since memory is an int[] */
 
-	new function<void> main(string[] args){
-		interpret <- {in <- {}};
-	};
-}
+    `[` {
+      if memory[pointer] == 0 then
+        inc index;
+        loop while c > 0 || tokens[index] != `]` do
+          if tokens[index] == `[` then inc c;
+          elif tokens[index] == `]` then dec c;
+
+          inc index;
+        end
+      end
+    }
+
+    `]` {
+      if memory[pointer] != 0 then
+        dec index;
+        loop while c > 0 || tokens[index] != `[` do
+          if tokens[index] == `]` then inc c;
+          elif tokens[index] == `[` then dec c;
+
+          dec index;
+        end
+      end
+    }
+
+    otherwise { eprint string {"Invalid token: " + tokens[index]}; }
+  end
+};
+
+new function<void> main{string[] args}{
+  interpret{in{}};
+};
+
+/* ngl rn I am LOVING this syntax, so very clean, so very simple */

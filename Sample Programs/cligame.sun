@@ -1,43 +1,52 @@
 @bind { System.exit(int status) }
-new function<void> exit(int status){};
+new function<void> exit(int status);
 
 @bind { Apollo.wait(int sec) }
-new function<void> wait(int sec){};
+new function<void> wait(int sec);
 
 @bind { Apollo.random(int min, int max)}
-new function<int> random(int min, int max){};
+new function<int> random(int min, int max);
 
 @bind { Apollo.waitForInput(int timeout)}
-new string inWithTimeout(int timeout){};
+new string inWithTimeout(int timeout);
 
-new int energy {100};
+@bind { Apollo.toCharArray(string s) }
+new function<char[]> toCharArray(string s);
+
+new int energy {100}; /* keyword type variable {value} */
 new int health {100};
 
-new function<void> addHealth(){ inc health; };
+new function<void> addHealth(){ inc health; }; /* keyword function<returnType> variable(parameters) {value} */
 new function<void> addEnergy(){ inc energy; };
 
 new function<void> update(){
 	// update energy
-	set energy {energy - random <- {1 10}};
-	if(energy < 0){ set energy {0}; }
-	if(energy >= 100){ addHealth <- {}; set energy {100}; }
+	set energy {energy - random{1 10}};
+	if energy < 0 then set energy {0};
+	if energy >= 100 do
+		addHealth{};
+		set energy {100}; /* keyword variable {value} */
+	end
 	// update health
-	if(energy <= 0){ dec health; }
-	if(health <= 0){ print <- {"You died!"}; exit <- {0}; }
-	wait <- {1.5};
+	if energy <= 0 then dec health; }
+	if health <= 0 do
+		eprint string {"You died!"}; /* keyword type {value} */
+		exit{0};
+	end
+	wait{1.5};
 };
 
 new function<void> main(string[] args){
-	print <- {"Welcome to the game!\n"};
-	print <- {"You have " health " health and " energy " energy.\n"};
-	print <- {"You can increase your energy by typing 's'\n"};
-	print <- {"Your health will decrease if your energy reaches 0.\n"};
-	print <- {"You can increase your health by reaching 100 energy.\n"};
-	loop while(true){
-	    new string input {inWithTimeout <- {0.5}};
-		new char[] inputs {toCharArray <- {input}};
-		if(inputs[0] == 's'){ addEnergy <- {}; }
-		print <- {"You have " health " health and " energy " energy.\n"};
-		update <- {};
-	}
+	print string {"Welcome to the game!\n"};
+	print string {"You have " health " health and " energy " energy.\n"}; /* print keyword implictly converts the variables to strings */
+	print string {"You can increase your energy by typing 's'\n"};
+	print string {"Your health will decrease if your energy reaches 0.\n"};
+	print string {"You can increase your health by reaching 100 energy.\n"};
+	loop while true do
+	    new string input {inWithTimeout{0.5}};
+		new char[] inputs {toCharArray{input}};
+		if inputs[0] == 's' then addEnergy{};
+		print string {"You have " health " health and " energy " energy.\n"};
+		update{};
+	end
 };
